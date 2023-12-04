@@ -1,4 +1,8 @@
 import { StackNavigationProp } from "@react-navigation/stack";
+import {
+  useFonts,
+  IBMPlexSerif_700Bold,
+} from "@expo-google-fonts/ibm-plex-serif";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
@@ -8,16 +12,14 @@ interface HomeScreenProps {
 }
 
 export default function HomeScreen({ navigation }: HomeScreenProps) {
+  const [fontsLoaded] = useFonts({
+    "IBM-Plex-Serif-Bold": IBMPlexSerif_700Bold,
+  });
+  if (!fontsLoaded) {
+
+
   return (
     <View style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <Pressable
-          style={styles.button}
-          onPress={() => navigation.navigate("Login")}
-        >
-          <Text style={styles.buttonText}>Login/Sign Up</Text>
-        </Pressable>
-      </View>
       <View style={styles.container}>
         <Text style={styles.title}>Meal Fridge</Text>
         <View style={styles.container2}>
@@ -33,13 +35,27 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
             See what ingredients have expired / how many days have passed since
             purchase date
           </Text>
+          <View style={styles.buttonContainer}>
+            <Pressable
+              style={styles.button}
+              onPress={() => navigation.navigate("Login")}
+            >
+              <Text style={styles.buttonText}>Login/Sign Up</Text>
+            </Pressable>
+            {/* <Pressable
+          style={styles.button}
+          onPress={() => navigation.navigate("About")}
+        >
+          <Text style={styles.buttonText}>How it works</Text>
+        </Pressable> */}
+          </View>
         </View>
 
         <StatusBar style="auto" />
       </View>
     </View>
   );
-}
+}}
 
 const styles = StyleSheet.create({
   buttonContainer: {},
@@ -68,8 +84,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontWeight: "600",
+    fontWeight: "800",
     color: "#0a3200",
+    fontFamily: "IBM-Plex-Serif-Bold",
   },
   description: {
     padding: 3,
