@@ -10,49 +10,43 @@ import {
   StyleSheet,
 } from "react-native";
 
-interface LoginScreenProps {
-  navigation: StackNavigationProp<any, "Login">;
+interface SignUpScreenProps {
+  navigation: StackNavigationProp<any, "SignUp">;
 }
 
-export default function LoginScreen({ navigation }: LoginScreenProps) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = () => {
-    // Handle login logic here
+export default function SignUpScreen({ navigation }: SignUpScreenProps) {
+  const handleSignUp = () => {
+    // Handle sign up logic here
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textHeader}>Login</Text>
+      <Text style={styles.textHeader}>Sign Up</Text>
+      <TextInput
+        style={styles.textInput}
+        placeholder="First Name"
+        // onChangeText={""}
+      />
+       <TextInput
+        style={styles.textInput}
+        placeholder="Last Name"
+        // onChangeText={""}
+      />
       <TextInput
         style={styles.textInput}
         placeholder="Email"
-        onChangeText={(text) => setEmail(text)}
+        // onChangeText={""}
       />
       <TextInput
         style={styles.textInput}
         placeholder="Password"
         secureTextEntry
-        onChangeText={(text) => setPassword(text)}
+        // onChangeText={""}
       />
-      <Pressable style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
+      <Pressable style={styles.button} >
+        <Text style={styles.buttonText}>Create Account</Text>
       </Pressable>
-      <View style={styles.signUp}>
-        <Text style={styles.description}>
-          Create new account?
-          <Pressable onPress={() => navigation.navigate("SignUp")}>
-            <Text style={styles.description}> Sign Up</Text>
-          </Pressable>
-          {/* <Pressable
-            style={styles.button}
-            onPress={() => navigation.navigate("SignUp")} // Correct screen name
-          >
-            <Text style={styles.buttonText}>Sign Up</Text>
-          </Pressable> */}
-        </Text>
-      </View>
+      
     </View>
   );
 }
@@ -75,7 +69,6 @@ const styles = StyleSheet.create({
     height: 50,
     fontSize: 19,
     margin: 10,
-    borderRadius: 10,
     textAlign: "center",
     alignItems: "center",
     backgroundColor: "white",

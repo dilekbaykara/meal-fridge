@@ -1,23 +1,37 @@
 import { StackNavigationProp } from "@react-navigation/stack";
+import * as Font from "expo-font";
+import Spinner from "react-native-loading-spinner-overlay";
 import {
   useFonts,
   IBMPlexSerif_700Bold,
 } from "@expo-google-fonts/ibm-plex-serif";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 interface HomeScreenProps {
   navigation: StackNavigationProp<any, "Home">;
 }
 
-export default function HomeScreen({ navigation }: HomeScreenProps) {
-  const [fontsLoaded] = useFonts({
+const fetchFonts = () => {
+  return Font.loadAsync({
     "IBM-Plex-Serif-Bold": IBMPlexSerif_700Bold,
   });
-  if (!fontsLoaded) {
+};
 
+export default function HomeScreen({ navigation }: HomeScreenProps) {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
+  useEffect(() => {
+    const loadFontsAsync = async () => {
+      await fetchFonts();
+      setFontsLoaded(true);
+    };
+
+    loadFontsAsync();
+  }, []);
+
+  fontsLoaded;
   return (
     <View style={styles.container}>
       <View style={styles.container}>
@@ -55,13 +69,13 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
       </View>
     </View>
   );
-}}
+}
 
 const styles = StyleSheet.create({
   buttonContainer: {},
   container: {
     flex: 1,
-    backgroundColor: "#f8ffe9",
+    backgroundColor: "#D0F28D",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -86,7 +100,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "800",
     color: "#0a3200",
-    fontFamily: "IBM-Plex-Serif-Bold",
+    fontFamily: "IBMPlexSerif_700Bold",
   },
   description: {
     padding: 3,
