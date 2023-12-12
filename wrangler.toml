@@ -1,0 +1,4 @@
+[[d1_databases]]
+binding = "DB" # available in your Worker on env.DB
+database_name = "meal-fridge"
+database_id = "29849c7d-6dab-4ce9-b321-3e2e9c43596c"

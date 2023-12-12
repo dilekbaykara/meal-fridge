@@ -10,24 +10,31 @@ import {
   StyleSheet,
 } from "react-native";
 
+const SIGN_UP_URL = "http://localhost:8787/";
+
 interface SignUpScreenProps {
   navigation: StackNavigationProp<any, "SignUp">;
 }
 
 export default function SignUpScreen({ navigation }: SignUpScreenProps) {
-  const handleSignUp = () => {
+  const [message, setMessage] = useState("");
+  const handleSignUp = async () => {
     // Handle sign up logic here
+    const signUpResult = await fetch(SIGN_UP_URL);
+    const signUpResultData = await signUpResult.text();
+    setMessage(signUpResultData);
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.textHeader}>Sign Up</Text>
+      <Text style={styles.description}>{message}</Text>
       <TextInput
         style={styles.textInput}
         placeholder="First Name"
         // onChangeText={""}
       />
-       <TextInput
+      <TextInput
         style={styles.textInput}
         placeholder="Last Name"
         // onChangeText={""}
@@ -43,10 +50,9 @@ export default function SignUpScreen({ navigation }: SignUpScreenProps) {
         secureTextEntry
         // onChangeText={""}
       />
-      <Pressable style={styles.button} >
+      <Pressable style={styles.button} onPress={handleSignUp}>
         <Text style={styles.buttonText}>Create Account</Text>
       </Pressable>
-      
     </View>
   );
 }
@@ -58,16 +64,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  textHeader:{ fontSize: 19,
+  textHeader: {
+    fontSize: 19,
     lineHeight: 21,
     fontWeight: "bold",
     letterSpacing: 0.25,
-    color: "#8447ff"},
+    color: "#8447ff",
+  },
 
   textInput: {
     width: 300,
     height: 50,
     fontSize: 19,
+    borderRadius: 12,
     margin: 10,
     textAlign: "center",
     alignItems: "center",

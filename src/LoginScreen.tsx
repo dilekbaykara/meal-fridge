@@ -36,6 +36,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
         secureTextEntry
         onChangeText={(text) => setPassword(text)}
       />
+      <Text style={styles.description}> Forgot Password? </Text>
       <Pressable style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </Pressable>
@@ -45,12 +46,6 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
           <Pressable onPress={() => navigation.navigate("SignUp")}>
             <Text style={styles.description}> Sign Up</Text>
           </Pressable>
-          {/* <Pressable
-            style={styles.button}
-            onPress={() => navigation.navigate("SignUp")} // Correct screen name
-          >
-            <Text style={styles.buttonText}>Sign Up</Text>
-          </Pressable> */}
         </Text>
       </View>
     </View>
@@ -64,11 +59,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  textHeader:{ fontSize: 19,
+  textHeader: {
+    fontSize: 19,
     lineHeight: 21,
     fontWeight: "bold",
     letterSpacing: 0.25,
-    color: "#8447ff"},
+    color: "#8447ff",
+  },
 
   textInput: {
     width: 300,
@@ -89,6 +86,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: "black",
   },
+
   signUp: {
     flex: 0,
     alignItems: "center",
@@ -97,7 +95,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   description: {
-    padding: 3,
+    flex: 0,
     flexWrap: "wrap",
     textAlign: "center",
     alignItems: "center",
