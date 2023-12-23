@@ -18,11 +18,41 @@ interface SignUpScreenProps {
 
 export default function SignUpScreen({ navigation }: SignUpScreenProps) {
   const [message, setMessage] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // const handleSignUp = async () => {
+  //   // Handle sign up logic here
+  //   const signUpResult = await fetch(SIGN_UP_URL);
+  //   const signUpResultData = await signUpResult.text();
+  //   setMessage(signUpResultData);
+  // };
+
   const handleSignUp = async () => {
-    // Handle sign up logic here
-    const signUpResult = await fetch(SIGN_UP_URL);
-    const signUpResultData = await signUpResult.text();
-    setMessage(signUpResultData);
+    try {
+      const userData = {
+        firstName,
+        lastName,
+        email,
+        password,
+      };
+
+      const signUpResult = await fetch(SIGN_UP_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const signUpResultData = await signUpResult.json();
+      setMessage(signUpResultData.message);
+    } catch (error) {
+      console.error("Error signing up:", error);
+      setMessage("Error signing up. Please try again.");
+    }
   };
 
   return (
@@ -32,22 +62,26 @@ export default function SignUpScreen({ navigation }: SignUpScreenProps) {
       <TextInput
         style={styles.textInput}
         placeholder="First Name"
+        onChangeText={(text) => setFirstName(text)}
         // onChangeText={""}
       />
       <TextInput
         style={styles.textInput}
         placeholder="Last Name"
+        onChangeText={(text) => setLastName(text)}
         // onChangeText={""}
       />
       <TextInput
         style={styles.textInput}
         placeholder="Email"
+        onChangeText={(text) => setEmail(text)}
         // onChangeText={""}
       />
       <TextInput
         style={styles.textInput}
         placeholder="Password"
         secureTextEntry
+        onChangeText={(text) => setPassword(text)}
         // onChangeText={""}
       />
       <Pressable style={styles.button} onPress={handleSignUp}>

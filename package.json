@@ -7,7 +7,8 @@
     "build": "expo export:web",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "api": "wrangler dev functions/sign-up.ts --remote"
   },
   "dependencies": {
     "@expo-google-fonts/ibm-plex-serif": "^0.2.3",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@cloudflare/workers-types": "^4.20231121.0",
+    "@types/node": "^20.10.5",
     "wrangler": "^3.19.0"
   },
   "private": true
