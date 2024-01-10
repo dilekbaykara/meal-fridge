@@ -39,8 +39,38 @@ const handler: ExportedHandler = {
           headers: {
             "content-type": "application/json;charset=UTF-8",
           },
+          status: 400,
         });
       }
+
+      // Throw an error if lowercaseEmail matches another sign up request
+      const checkEmailQuery = env.DB.prepare(
+        "SELECT email FROM users WHERE email = ?"
+      );
+      const emailQueryResult = await checkEmailQuery.bind(lowercaseEmail).run();
+      if (!emailQueryResult.success) {
+        console.log(emailQueryResult.error);
+        const json = JSON.stringify({ error: "unknown error" }, null, 2);
+
+        return new Response(json, {
+          headers: {
+            "content-type": "application/json;charset=UTF-8",
+          },
+          status: 500,
+        });
+      }
+
+      if (emailQueryResult.results.length === 1) {
+        const json = JSON.stringify({ error: "email already exists" }, null, 2);
+
+        return new Response(json, {
+          headers: {
+            "content-type": "application/json;charset=UTF-8",
+          },
+          status: 400,
+        });
+      }
+
       const salt = crypto.randomBytes(64).toString("base64");
 
       const hash = crypto
@@ -51,7 +81,13 @@ const handler: ExportedHandler = {
         "INSERT INTO users(password, email, first_name, last_name, created_at) VALUES(?,?,?,?,?)"
       );
       const countResult = await countQuery
-        .bind(`${salt}.${hash}`, email, firstName, lastName, new Date().toString())
+        .bind(
+          `${salt}.${hash}`,
+          lowercaseEmail,
+          firstName,
+          lastName,
+          new Date().toString()
+        )
         .run();
       if (!countResult.success) {
         console.error(countResult.error);
@@ -61,6 +97,7 @@ const handler: ExportedHandler = {
           headers: {
             "content-type": "application/json;charset=UTF-8",
           },
+          status: 500,
         });
       }
 
@@ -78,11 +115,12 @@ const handler: ExportedHandler = {
       });
     } catch (error) {
       console.error(error);
-      const json = JSON.stringify({ error: "invalid JSON format" }, null, 2);
+      const json = JSON.stringify({ error: "unknown error" }, null, 2);
       return new Response(json, {
         headers: {
           "content-type": "application/json;charset=UTF-8",
         },
+        status: 500,
       });
     }
   },

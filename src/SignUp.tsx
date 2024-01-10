@@ -21,14 +21,8 @@ export default function SignUpScreen({ navigation }: SignUpScreenProps) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  // const handleSignUp = async () => {
-  //   // Handle sign up logic here
-  //   const signUpResult = await fetch(SIGN_UP_URL);
-  //   const signUpResultData = await signUpResult.text();
-  //   setMessage(signUpResultData);
-  // };
+  const [password, setPassword] = useState("");
 
   const handleSignUp = async () => {
     try {
@@ -48,17 +42,39 @@ export default function SignUpScreen({ navigation }: SignUpScreenProps) {
       });
 
       const signUpResultData = await signUpResult.json();
-      setMessage(signUpResultData.message);
+
+      //     console.log("Server Response:", signUpResultData);
+      //     console.log("Message:", message);
+      //     setMessage(signUpResultData.message);
+      //   } catch (error) {
+      //     console.error("Error signing up:", error);
+      //     setMessage("Error signing up. Please try again.");
+      //   }
+      // };
+
+      // Check for the specific error case where email already exists
+      if (signUpResultData.error === "email already exists") {
+        setMessage("Email already exists. Please use a different email.");
+      } else {
+        // Handle other success cases if needed
+        setMessage(signUpResultData.message);
+      }
     } catch (error) {
       console.error("Error signing up:", error);
-      setMessage("Error signing up. Please try again.");
+
+      // Check for network errors
+      if (error.message === "Network request failed") {
+        setMessage("Network error. Please check your internet connection.");
+      } else {
+        setMessage("Error signing up. Please try again.");
+      }
     }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.textHeader}>Sign Up</Text>
-      <Text style={styles.description}>{message}</Text>
+      {message ? <Text style={styles.errorMessage}>{message}</Text> : null}
       <TextInput
         style={styles.textInput}
         placeholder="First Name"
@@ -84,6 +100,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenProps) {
         onChangeText={(text) => setPassword(text)}
         // onChangeText={""}
       />
+
       <Pressable style={styles.button} onPress={handleSignUp}>
         <Text style={styles.buttonText}>Create Account</Text>
       </Pressable>
@@ -105,7 +122,12 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: "#8447ff",
   },
-
+  errorMessage: {
+    width: 300,
+    height: 50,
+    fontSize: 20,
+    color: "red",
+  },
   textInput: {
     width: 300,
     height: 50,
