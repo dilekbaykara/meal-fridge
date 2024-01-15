@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: "#8447ff",
   },
-
   textInput: {
     width: 300,
     height: 50,
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     textAlign: "center",
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: "#f5fffa",
   },
   button: {
     alignItems: "center",
@@ -86,7 +85,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: "black",
   },
-
   signUp: {
     flex: 0,
     alignItems: "center",
