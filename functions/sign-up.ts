@@ -1,4 +1,7 @@
 import * as crypto from "node:crypto";
+import jwt from "@tsndr/cloudflare-worker-jwt";
+
+const JWT_SECRET = "hashbrown";
 
 export interface Env {
   DB: D1Database;
@@ -14,6 +17,7 @@ interface ParsedRequestBody {
 
 const handler: ExportedHandler = {
   async fetch(request: Request, env: Env) {
+    console.log("hi");
     if (request.method !== "POST") {
       return new Response(createErrorResponse("Method not allowed"), {
         status: 405,
@@ -50,7 +54,7 @@ const handler: ExportedHandler = {
       const emailQueryResult = await checkEmailQuery.bind(lowercaseEmail).run();
       if (!emailQueryResult.success) {
         console.log(emailQueryResult.error);
-        const json = JSON.stringify({ error: "unknown error" }, null, 2);
+        const json = JSON.stringify({ error: "unknown error 1" }, null, 2);
 
         return new Response(json, {
           headers: {
@@ -91,7 +95,7 @@ const handler: ExportedHandler = {
         .run();
       if (!countResult.success) {
         console.error(countResult.error);
-        const json = JSON.stringify({ error: "unknown error" }, null, 2);
+        const json = JSON.stringify({ error: "unknown error 2" }, null, 2);
 
         return new Response(json, {
           headers: {
@@ -101,8 +105,12 @@ const handler: ExportedHandler = {
         });
       }
 
+      const exp = Date.now() + 365 * 24 * 60 * 60 * 1000;
+
+      const token = await jwt.sign({ email, exp }, JWT_SECRET);
+
       const data = {
-        hello: "world",
+        jwt: token,
         count_users: countResult.results,
       };
 
@@ -115,7 +123,7 @@ const handler: ExportedHandler = {
       });
     } catch (error) {
       console.error(error);
-      const json = JSON.stringify({ error: "unknown error" }, null, 2);
+      const json = JSON.stringify({ error: "unknown error 3" }, null, 2);
       return new Response(json, {
         headers: {
           "content-type": "application/json;charset=UTF-8",
