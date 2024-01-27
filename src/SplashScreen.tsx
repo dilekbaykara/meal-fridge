@@ -1,5 +1,6 @@
 // SplashScreen.tsx
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StackNavigationProp } from "@react-navigation/stack";
 import React, { useEffect } from "react";
 import { View, Image, StyleSheet } from "react-native";
@@ -10,8 +11,13 @@ interface SplashScreenProps {
 
 const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      navigation.replace("Home");
+    const timeout = setTimeout(async () => {
+      const jwt = await AsyncStorage.getItem("auth-key");
+      if (jwt) {
+        navigation.replace("DashBoard");
+      } else {
+        navigation.replace("Home");
+      }
     }, 2000);
   }, [navigation]);
   return (

@@ -5,6 +5,7 @@ import LoginScreen from "./LoginScreen";
 import SignUpScreen from "./SignUp";
 import SplashScreen from "./SplashScreen";
 import HomeScreen from "./HomeScreen";
+import DashBoardScreen from "./DashBoard";
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,13 @@ export default function App() {
           }}
           name="SignUp"
           component={SignUpScreen}
+        />
+        <Stack.Screen
+          options={{
+            headerTitle: "  ",
+          }}
+          name="DashBoard"
+          component={DashBoardScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

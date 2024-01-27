@@ -12,7 +12,9 @@ import {
   ScrollView,
 } from "react-native";
 
-const SIGN_UP_URL = "http://localhost:8787/";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const SIGN_UP_URL = "http://localhost:8788/sign-up";
 
 interface SignUpScreenProps {
   navigation: StackNavigationProp<any, "SignUp">;
@@ -68,6 +70,8 @@ export default function SignUpScreen({ navigation }: SignUpScreenProps) {
         }
       } else {
         console.log("the jwt is: ", signUpResultData.jwt);
+        await AsyncStorage.setItem("auth-key", signUpResultData.jwt);
+        navigation.navigate("DashBoard");
       }
     } catch (error) {
       console.error("Error signing up:", error);
