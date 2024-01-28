@@ -39,7 +39,16 @@ export default function App() {
         />
         <Stack.Screen
           options={{
-            headerTitle: "  ",
+            title: "Dashboard",
+            
+            headerStyle: {
+              backgroundColor: "#000000",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+            
           }}
           name="DashBoard"
           component={DashBoardScreen}
