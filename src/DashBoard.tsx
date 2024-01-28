@@ -31,11 +31,13 @@ const DashBoard: React.FC<DashBoardProps> = ({ route, navigation }) => {
   };
   return (
     <View style={styles.container}>
-      <Text>Welcome, {username}!</Text>
-      <Pressable style={styles.button} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Logout</Text>
-      </Pressable>
-      <Text style={styles.title}>Dash Board</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Welcome, {username}!</Text>
+        <Pressable style={styles.button} onPress={handleLogout}>
+          <Text style={styles.buttonText}>Logout</Text>
+        </Pressable>
+      </View>
+      <View style={styles.body}></View>
     </View>
   );
 };
@@ -43,15 +45,30 @@ const DashBoard: React.FC<DashBoardProps> = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   buttonContainer: {},
   container: {
-    flex: 2,
+    flex: 1,
+    backgroundColor: "#D0F28D",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  header: {
+    margin: 20,
+    backgroundColor: "#D0F28D",
+    alignSelf: "flex-end",
+    justifyContent: "center",
+    flexDirection: "row",
+    alignContent: "center",
+    gap: 10,
+  },
+  body: {
+    flex: 1,
     backgroundColor: "#D0F28D",
     alignItems: "center",
     justifyContent: "center",
   },
   button: {
+    alignContent: "center",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 30,
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 4,
