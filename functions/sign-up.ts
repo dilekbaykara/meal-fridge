@@ -13,7 +13,6 @@ interface ParsedRequestBody {
   lastName: string;
   email: string;
   password: string;
-  // Add other fields as needed
 }
 
 export const onRequestPost: PagesFunction<Env> = async function ({

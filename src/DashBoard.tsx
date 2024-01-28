@@ -1,18 +1,29 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
+import { RouteProp } from "@react-navigation/native";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { getHeaderTitle } from "@react-navigation/elements";
 
+type RootStackParamList = {
+  SignUp: undefined;
+  Dashboard: { username: string };
+  // Add other screens here if needed
+};
+
+type DashBoardScreenRouteProp = RouteProp<RootStackParamList, "Dashboard">;
+
 interface DashBoardProps {
-  navigation: StackNavigationProp<any, "DashBoard">;
+  navigation: StackNavigationProp<any, "Dashboard">;
+  route: DashBoardScreenRouteProp;
 }
 
-function DashBoard({ navigation }: DashBoardProps) {
+const DashBoard: React.FC<DashBoardProps> = ({ route, navigation }) => {
+  const { username } = route.params || {};
+
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem("auth-key");
-
       navigation.navigate("Home");
     } catch (error) {
       console.error("Error logging out:", error);
@@ -20,18 +31,19 @@ function DashBoard({ navigation }: DashBoardProps) {
   };
   return (
     <View style={styles.container}>
+      <Text>Welcome, {username}!</Text>
       <Pressable style={styles.button} onPress={handleLogout}>
         <Text style={styles.buttonText}>Logout</Text>
       </Pressable>
       <Text style={styles.title}>Dash Board</Text>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   buttonContainer: {},
   container: {
-    flex: 1,
+    flex: 2,
     backgroundColor: "#D0F28D",
     alignItems: "center",
     justifyContent: "center",
@@ -75,3 +87,6 @@ const styles = StyleSheet.create({
 });
 
 export default DashBoard;
+function useRoute() {
+  throw new Error("Function not implemented.");
+}

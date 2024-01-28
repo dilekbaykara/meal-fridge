@@ -59,19 +59,18 @@ export default function SignUpScreen({ navigation }: SignUpScreenProps) {
       const signUpResultData: { error: string } | { jwt: string } =
         await signUpResult.json();
 
-      // Check for the specific error case where email already exists
       if ("error" in signUpResultData) {
         if (signUpResultData.error === "email already exists") {
           setMessage("Email already exists. Please use a different email.");
         } else {
-          // Handle other success cases if needed
           console.log(signUpResultData);
           setMessage(signUpResultData.error);
         }
       } else {
         console.log("the jwt is: ", signUpResultData.jwt);
         await AsyncStorage.setItem("auth-key", signUpResultData.jwt);
-        navigation.navigate("DashBoard");
+
+        navigation.navigate("DashBoard", { username: firstName });
       }
     } catch (error) {
       console.error("Error signing up:", error);
@@ -94,6 +93,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenProps) {
       <TextInput
         style={styles.textInput}
         placeholder="First Name"
+        value={firstName}
         onChangeText={(text) => setFirstName(text)}
         // onChangeText={""}
       />
